@@ -1,21 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
+interface ITodo {
+  id: number;
+  title: string;
+  description: string;
+  deadline: Date | string;
+  isDone: boolean;
+}
 
-const initialState = {
-  //
+interface ITodoState {
+  todos: Array<ITodo>;
+}
+
+const initialState: ITodoState = {
+  todos: [] as Array<ITodo>,
 };
 
 const todoSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {
-    addTodo(todo) {
-      //
+    addTodo(state, { payload }) {
+      state.todos.push(payload);
     },
-    removeTodo(id) {
-      //
+    removeTodo(state, { payload }) {
+      state.todos = state.todos.filter((todo) => todo.id !== payload);
     },
-    editTodo(id) {
-      //
+    editTodo(state, { payload }) {
+      state.todos = state.todos.map((todo) =>
+        todo.id === payload.id ? payload.todo : todo
+      );
     },
   },
   extraReducers(builder) {
